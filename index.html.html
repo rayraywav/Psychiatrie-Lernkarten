@@ -1,0 +1,794 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Karteikarten UK 2020 21</title>
+  <style>
+    :root{
+      color-scheme: dark;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      --bg: #0b0c10;
+      --panel: rgba(255,255,255,0.06);
+      --panel2: rgba(255,255,255,0.09);
+      --border: rgba(255,255,255,0.10);
+      --text: #e8e8ea;
+      --muted: rgba(232,232,234,0.75);
+      --accent: rgba(110,231,183,0.9);
+      --danger: rgba(248,113,113,0.9);
+      --shadow: 0 20px 60px rgba(0,0,0,0.35);
+      --radius: 18px;
+    }
+
+    *{ box-sizing: border-box; }
+    body{
+      margin: 0;
+      background: radial-gradient(1200px 800px at 20% 0%, rgba(110,231,183,0.12), transparent 55%),
+                  radial-gradient(900px 700px at 100% 20%, rgba(147,197,253,0.12), transparent 50%),
+                  var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header{
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(10px);
+      background: rgba(11,12,16,0.82);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .wrap{
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 18px 16px;
+    }
+
+    h1{
+      margin: 0 0 10px 0;
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: 0.2px;
+    }
+
+    .sub{
+      margin: 0 0 14px 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .controls{
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr 0.8fr;
+      gap: 10px;
+      align-items: center;
+    }
+
+    @media (max-width: 860px){
+      .controls{ grid-template-columns: 1fr; }
+    }
+
+    .row{
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    input, select, button{
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 10px 12px;
+      outline: none;
+      font-size: 14px;
+    }
+
+    input::placeholder{ color: rgba(232,232,234,0.55); }
+
+    button{
+      cursor: pointer;
+      transition: transform 0.06s ease, background 0.2s ease, border-color 0.2s ease;
+      user-select: none;
+    }
+    button:hover{ background: var(--panel2); border-color: rgba(255,255,255,0.16); }
+    button:active{ transform: scale(0.98); }
+
+    .pill{
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    main .wrap{
+      padding-top: 14px;
+      padding-bottom: 32px;
+    }
+
+    .grid{
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 14px;
+      align-items: start;
+    }
+
+    @media (max-width: 980px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+
+    .card{
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .cardHead{
+      padding: 12px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .cardHead strong{
+      font-size: 13px;
+      letter-spacing: 0.2px;
+    }
+
+    .progress{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .bar{
+      width: 140px;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .bar > div{
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, rgba(110,231,183,0.95), rgba(147,197,253,0.85));
+    }
+
+    .flash{
+      padding: 14px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .big{
+      min-height: 300px;
+      padding: 16px;
+      border-radius: 16px;
+      background: rgba(0,0,0,0.15);
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .big .label{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(232,232,234,0.78);
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    .big .text{
+      font-size: 18px;
+      line-height: 1.45;
+      font-weight: 750;
+      letter-spacing: 0.15px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .big .hint{
+      position: absolute;
+      right: 12px;
+      bottom: 12px;
+      color: rgba(232,232,234,0.55);
+      font-size: 12px;
+    }
+
+    .actions{
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .actions .left, .actions .right{
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .btnAccent{
+      border-color: rgba(110,231,183,0.35);
+      background: rgba(110,231,183,0.10);
+    }
+    .btnDanger{
+      border-color: rgba(248,113,113,0.35);
+      background: rgba(248,113,113,0.10);
+    }
+
+    .side{
+      padding: 14px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .list{
+      display: grid;
+      gap: 8px;
+      max-height: 520px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .item{
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+    .item:hover{ background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.16); }
+    .item.active{ outline: 2px solid rgba(110,231,183,0.35); background: rgba(110,231,183,0.08); }
+    .item .q{
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.35;
+      margin: 0 0 6px 0;
+    }
+    .item .meta{
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      padding: 2px 6px;
+      border-radius: 8px;
+      color: rgba(232,232,234,0.85);
+    }
+
+    .small{
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .footerNote{
+      margin-top: 10px;
+      color: rgba(232,232,234,0.55);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="wrap">
+      <h1>Karteikarten UK 2020 21</h1>
+      <p class="sub">
+        Klick auf die große Karte zum Umdrehen. Tastatur: <span class="kbd">Leertaste</span> drehen,
+        <span class="kbd">Pfeil links</span> vorher,
+        <span class="kbd">Pfeil rechts</span> nächster.
+      </p>
+
+      <div class="controls">
+        <input id="search" type="search" placeholder="Suche nach Begriff, Frage oder Antwort" />
+        <select id="topic">
+          <option value="all">Alle Themen</option>
+        </select>
+        <div class="row">
+          <button id="shuffle" class="btnAccent">Shuffle</button>
+          <button id="reset" class="">Reset</button>
+          <span id="count" class="pill">0 Karten</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <div class="grid">
+        <section class="card">
+          <div class="cardHead">
+            <strong id="title">Karte</strong>
+            <div class="progress">
+              <span id="pos">0 von 0</span>
+              <div class="bar" aria-hidden="true"><div id="barFill"></div></div>
+            </div>
+          </div>
+
+          <div class="flash">
+            <div id="bigCard" class="big" role="button" tabindex="0" aria-label="Karte umdrehen">
+              <div class="label" id="faceLabel">Frage</div>
+              <div class="text" id="faceText"></div>
+              <div class="hint">Klick oder Leertaste</div>
+            </div>
+
+            <div class="actions">
+              <div class="left">
+                <button id="prev">Vorher</button>
+                <button id="next" class="btnAccent">Nächster</button>
+                <button id="flip">Drehen</button>
+              </div>
+              <div class="right">
+                <button id="markKnown" class="btnAccent">Gekonnt</button>
+                <button id="markAgain" class="btnDanger">Nochmal</button>
+              </div>
+            </div>
+
+            <div class="small">
+              Lernmodus: „Nochmal“ verschiebt die Karte ans Ende. „Gekonnt“ blendet sie aus, bis du Reset drückst.
+            </div>
+          </div>
+        </section>
+
+        <aside class="card">
+          <div class="cardHead">
+            <strong>Liste</strong>
+            <div class="pill" id="knownPill">Gekonnt: 0</div>
+          </div>
+          <div class="side">
+            <div class="list" id="list"></div>
+            <div class="footerNote">
+              Tipp: Nutze die Suche, um schnell Begriffe wie Bewusstsein, Orientierung, Parkinson oder Alzheimer zu finden.
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Daten aus: Gesammelte Karteikarten UK 2020 21 (PDF)
+    const CARDS = [
+      // Psychopathologischer Befund und Untersuchung
+      { topic: "Psychiatrische Untersuchung", q: "Nenne die 11 Grundfunktionen der Psyche", a: "Bewusstseinsstörungen\nOrientierung\nAufmerksamkeit und Konzentration\nMerkfähigkeit\nKurzzeitgedächtnis\nLangzeitgedächtnis\nAntrieb und Aktivität\nPsychomotorik\nAffektivität\nDenkstörungen\nWahrnehmungsstörungen\nIch Störungen\nIntelligenz" },
+      { topic: "Psychiatrische Untersuchung", q: "In welche Bereiche ist die psychiatrische Untersuchung aufgeteilt", a: "Anamnese und Befund" },
+      { topic: "Psychiatrische Untersuchung", q: "Was bedeutet Anamnese übersetzt", a: "Erfragung der Krankenvorgeschichte" },
+      { topic: "Psychiatrische Untersuchung", q: "Nenne 4 der 7 Aspekte der Anamnese", a: "Soziodemographische Daten\nAktuelle Krankheitsgeschichte\nFrühere psychische und körperliche Erkrankungen\nDrogen und Medikamentenvorgeschichte\nBiographie\nFamilienanamnese\nFremdanamnese" },
+      { topic: "Befunderhebung", q: "Nenne 4 Kategorien der Befunderhebung mit jeweils 2 Beispielen", a: "Körperlicher Befund: Blutbild, Blutzucker, BSG, Leberwerte, Nierenwerte, Schilddrüsenwerte\nApparative Diagnostik: EEG, MRT, CCT, EKG, Dopplersonographie der Hirngefäße\nTestpsychologische Untersuchung: IQ Test, Aufmerksamkeitstest\nPsychopathologischer Befund: Bewusstsein, Orientierung, Wahrnehmung und weitere" },
+      { topic: "Begriffe", q: "Erkläre den Begriff Neurose", a: "Veralteter Begriff nach Freud für leichtere psychische Erkrankungen, deren Ursache in frühkindlichen teils unbewussten Konflikten gesehen wird" },
+      { topic: "Begriffe", q: "Erkläre den Begriff Psychose", a: "Veralteter Begriff für schwerwiegende psychische Erkrankungen mit Realitätsverlust, typischerweise mit Wahn und Halluzinationen" },
+      { topic: "Begriffe", q: "Erkläre den Begriff somatoforme Erkrankung", a: "Psychiatrische Erkrankung mit körperlichen Symptomen, aber psychischen Ursachen" },
+      { topic: "Begriffe", q: "Erkläre den Begriff psychosomatische Erkrankung", a: "Körperliche Erkrankung mit organischen und psychischen Ursachen" },
+
+      // Neurologische Begriffe
+      { topic: "Neurologie", q: "Kontralaterale Hemiparese", a: "Gegenüberliegende Halbseitenlähmung, unvollständige Lähmung mit Kraftminderung" },
+      { topic: "Neurologie", q: "Agnosie", a: "Nicht erkennen: nicht wissen wozu Dinge benutzt werden, Personen nicht mehr erkennen können" },
+      { topic: "Neurologie", q: "Apraxie", a: "Fehlendes Handlungswissen: nicht mehr wissen wie man etwas tut" },
+      { topic: "Neurologie", q: "Was sind Kulturtechniken", a: "Lesen, Rechnen, Schreiben" },
+
+      // Bewusstsein und Orientierung
+      { topic: "Bewusstsein", q: "Bewusstseinsstörung", a: "Beeinträchtigung der Wachheit und Klarheit der geistigen Funktionen" },
+      { topic: "Bewusstsein", q: "Quantitative Bewusstseinsstörung", a: "Beeinträchtigung der Wachheit der geistigen Funktionen" },
+      { topic: "Bewusstsein", q: "Somnolenz", a: "Außergewöhnliche Schläfrigkeit" },
+      { topic: "Bewusstsein", q: "Sopor", a: "Wie betäubt, kaum weckbar" },
+      { topic: "Bewusstsein", q: "Koma", a: "Tiefe Bewusstlosigkeit, nicht weckbar" },
+      { topic: "Bewusstsein", q: "Qualitative Bewusstseinsstörung", a: "Klarheit der geistigen Funktionen ist beeinträchtigt" },
+
+      // Motorik
+      { topic: "Neurologie", q: "Plegie", a: "Vollständige Lähmung" },
+      { topic: "Neurologie", q: "Spastik", a: "Zentrale Lähmung mit erhöhter Muskelspannung" },
+
+      // Aufmerksamkeit und Gedächtnis
+      { topic: "Kognition", q: "Konzentrationsstörung", a: "Der Patient schweift ab und kann sich nur vorübergehend mit einer Sache beschäftigen" },
+      { topic: "Kognition", q: "Gedächtnisstörung", a: "Störung des Erinnerungsvermögens" },
+      { topic: "Kognition", q: "Störung des Ultrakurzzeitgedächtnisses", a: "Sofortiges Nachsprechen von Wörtern ist nicht möglich" },
+      { topic: "Kognition", q: "Störung des Kurzzeitgedächtnisses", a: "Wörter können nicht länger als 10 Minuten behalten werden" },
+      { topic: "Kognition", q: "Störung des Langzeitgedächtnisses", a: "Erlebnisse von Tagen oder Jahren können nicht richtig wiedergegeben werden" },
+
+      // Orientierung
+      { topic: "Orientierung", q: "Orientierungsstörung", a: "Nicht Bescheid wissen über die Realität" },
+      { topic: "Orientierung", q: "Örtliche Orientierungsstörung", a: "Der Patient weiß nicht wo er sich aufhält" },
+      { topic: "Orientierung", q: "Zeitliche Orientierungsstörung", a: "Der Patient weiß Tageszeit, Datum, Wochentag oder Jahr nicht" },
+      { topic: "Orientierung", q: "Situative Orientierungsstörung", a: "Der Patient erfasst nicht was gerade abläuft" },
+      { topic: "Orientierung", q: "Orientierungsstörung zur Person", a: "Der Patient weiß nicht über sich selbst Bescheid" },
+
+      // Wahrnehmung und Denken
+      { topic: "Wahrnehmung", q: "Wahrnehmungsstörung", a: "Gestörte Fähigkeit die Umwelt mit den eigenen Sinnen richtig zu erkennen" },
+      { topic: "Wahrnehmung", q: "Halluzination", a: "Sinnesreize werden angegeben die nicht existieren, zum Beispiel akustisch optisch olfaktorisch gustatorisch taktil" },
+      { topic: "Denken", q: "Denkstörung", a: "Gestörte Fähigkeit wahrzunehmen zu erinnern zu entscheiden zu urteilen zu ordnen und Informationen zu verbinden" },
+      { topic: "Denken", q: "Formale Denkstörung", a: "Störung des Gedankenablaufes" },
+      { topic: "Denken", q: "Denkverlangsamung", a: "Denken ist langsam und schleppend" },
+      { topic: "Denken", q: "Eingeengtes Denken", a: "Fixierung auf wenige Denkinhalte" },
+      { topic: "Denken", q: "Inhaltliche Denkstörung", a: "Ergebnis des Denkens ist falsch" },
+      { topic: "Denken", q: "Wahn", a: "Absolut unkorrigierbarer objektiv falscher Denkinhalt" },
+
+      // Notfall organische psychische Störung
+      { topic: "Notfall", q: "Notfallverhalten bei einer akuten organischen psychischen Störung", a: "Beim Klienten bleiben und vor Gefahren schützen\nNotarzt verständigen\nVitalzeichen kontrollieren\nBei Bewusstlosigkeit stabile Seitenlage" },
+      { topic: "Notfall", q: "Nenne die Symptome einer akuten organischen psychischen Störung", a: "Orientierungsstörungen\nBewusstseinsstörungen wie Somnolenz Sopor Koma" },
+
+      // Schlaganfall
+      { topic: "Schlaganfall", q: "Nenne und definiere die Stadien der Durchblutungsstörungen", a: "Gefäßeinengung ohne Symptome\nTIA Rückbildung innerhalb von 24 Stunden\nPRIND Rückbildung innerhalb von 7 Tagen\nProgressiver Infarkt langsam voranschreitend\nZerebraler Infarkt plötzlich auftretend" },
+      { topic: "Schlaganfall", q: "Nenne die Ursachen eines Schlaganfalls", a: "Hirnblutungen\nArteriosklerose\nEmbolien oder Thrombosen" },
+      { topic: "Affekt", q: "Affektstörung", a: "Störung des Gefühlsleben" },
+      { topic: "Affekt", q: "Affektlabilität", a: "Schneller Wechsel der Gefühle mit kurzer Dauer" },
+      { topic: "Affekt", q: "Depressivität", a: "Niedergeschlagene Stimmung, bei übermäßig vorhandenen anderen Gefühlen in Klausur als Affektstörung benennen" },
+      { topic: "Affekt", q: "Apathie", a: "Teilnahmslosigkeit" },
+
+      // Aphasie und Sensibilität
+      { topic: "Neurologie", q: "Aphasie", a: "Sprachstörung neurologisch bedingt" },
+      { topic: "Neurologie", q: "Motorische Broca Aphasie", a: "Sprache im Telegrammstil und Wortfindungsstörungen" },
+      { topic: "Neurologie", q: "Sensorische Wernicke Aphasie", a: "Sprachverständnis und Wortfindungsstörungen" },
+      { topic: "Neurologie", q: "Amnestische Aphasie", a: "Wortfindungsstörungen" },
+      { topic: "Neurologie", q: "Sensibilitätsstörung", a: "Beeinträchtigung der taktilen Wahrnehmung, Taubheitsgefühl, nicht mehr spüren können" },
+
+      // Antrieb und Psychomotorik
+      { topic: "Antrieb", q: "Antrieb", a: "Grundlegende Kraft die alle seelischen Leistungen antreibt" },
+      { topic: "Antrieb", q: "Antriebsminderung", a: "Mangel an Energie und Initiative" },
+      { topic: "Antrieb", q: "Antriebssteigerung", a: "Erhöhte Aktivität bis hin zur Unruhe" },
+      { topic: "Psychomotorik", q: "Psychomotorik", a: "Ausdrucksverhalten und motorische Funktionen die durch psychische Funktionen beeinflusst werden, Körpersprache" },
+      { topic: "Psychomotorik", q: "Hyperkinese", a: "Bewegungsunruhe und ziellose Aktivität" },
+      { topic: "Psychomotorik", q: "Hypokinese", a: "Bewegungsarmut" },
+      { topic: "Psychomotorik", q: "Akinese", a: "Bewegungslosigkeit" },
+      { topic: "Neurologie", q: "Rigor", a: "Starre" },
+      { topic: "Neurologie", q: "Tremor", a: "Zittern" },
+      { topic: "Neurologie", q: "Ataxie", a: "Störung der Feinabstimmung und Koordination der Bewegungen" },
+      { topic: "Neurologie", q: "Neglect", a: "Nichtbeachten von Sinnesreizen" },
+      { topic: "Kognition", q: "Intelligenz", a: "Geistige Beweglichkeit und Leistungsfähigkeit" },
+
+      // Nervensystem
+      { topic: "Nervensystem", q: "Wie lässt sich das Nervensystem anatomisch einteilen", a: "Zentrales Nervensystem und Peripheres Nervensystem" },
+      { topic: "Nervensystem", q: "Was gehört zum zentralen Nervensystem", a: "Rückenmark und Gehirn" },
+      { topic: "Nervenzelle", q: "Nenne die Bestandteile einer Nervenzelle", a: "Zellkörper\nDendriten\nAxon oder Neurit\nMyelinscheide mit Ranvier Schnürringen\nPräsynaptische Endigung" },
+      { topic: "Nervenzelle", q: "In welche Richtung fließt das elektrische Signal", a: "Von den Dendriten zur präsynaptischen Endigung" },
+      { topic: "Synapse", q: "Nenne die Bestandteile einer Synapse", a: "Synapsenknöpfchen\nPräsynaptische Endigung\nSynaptischer Spalt\nPostsynaptische Membran mit Rezeptoren" },
+      { topic: "Synapse", q: "Was geschieht wenn der elektrische Reiz in der präsynaptischen Endigung ankommt", a: "Neurotransmitter werden ausgeschüttet, treten in den synaptischen Spalt aus und werden von passenden Rezeptoren aufgenommen, Schlüssel Schloss Prinzip" },
+
+      // Gehirn und Rindenfelder
+      { topic: "Gehirn", q: "Nenne alle Gehirnteile, anatomische Einteilung", a: "Großhirn\nHirnstamm mit Zwischenhirn Mittelhirn Brücke\nVerlängertes Mark\nKleinhirn" },
+      { topic: "Gehirn", q: "In welchem Gehirnteil werden Motorik und Körpergefühle verarbeitet", a: "Großhirn" },
+      { topic: "Gehirn", q: "In welchem Rindenfeld werden Sprachinhalte verarbeitet", a: "Wernicke Sprachzentrum" },
+      { topic: "Gehirn", q: "Was geschieht wenn das primär motorische Rindenfeld einseitig zerstört wird", a: "Zentrale Lähmung, immer als Spastik, zwei Formen: Hemiparese und Hemiplegie" },
+      { topic: "Gehirn", q: "In welchem Rindenfeld werden die Sprechwerkzeuge gesteuert", a: "Broca motorisches Sprachzentrum" },
+
+      // Peripheres Nervensystem
+      { topic: "Nervensystem", q: "Wo beginnt das periphere Nervensystem", a: "Dort wo der Spinalnerv aus dem Wirbelkanal austritt" },
+      { topic: "Nervensystem", q: "Zwischen welchen Nervenfasern wird im peripheren Nervensystem unterschieden", a: "Sensible und motorische Nervenfasern" },
+      { topic: "Nervensystem", q: "Welche Nervenfasern sind afferent und welche efferent", a: "Sensible Fasern sind afferent und führen Reize über Rückenmark zum Gehirn\nMotorische Fasern sind efferent, der Reiz wird im Gehirn verarbeitet und über Rückenmark in den Muskel geleitet" },
+
+      // Vegetatives Nervensystem
+      { topic: "Vegetatives Nervensystem", q: "Erläutere das vegetative Nervensystem und nenne die beiden beteiligten Nerven", a: "Autonomes Nervensystem arbeitet selbstständig und unbewusst, steuert Organe wie Kreislauf Atmung Herzschlag Verdauung Fortpflanzung, gesteuert von Sympathikus und Parasympathikus als Gegenspieler" },
+      { topic: "Vegetatives Nervensystem", q: "Nenne 3 Beispiele für die Wirkung von Parasympathikus und Sympathikus an Organen", a: "Herzschlag: Sympathikus beschleunigt, Parasympathikus verlangsamt\nVerdauung: Sympathikus bremst, Parasympathikus fördert\nAtmung: Sympathikus beschleunigt, Parasympathikus verlangsamt" },
+      { topic: "Vegetatives Nervensystem", q: "Welche Aufgaben sind Sympathikus und Parasympathikus allgemein zuzuordnen", a: "Sympathikus: Kampf und Flucht\nParasympathikus: Ruhen und Verdauen" },
+
+      // Hirninfarkt und Apoplex
+      { topic: "Schlaganfall", q: "Nenne drei andere Bezeichnungen für Hirninfarkt", a: "Apoplex\nZerebraler Insult oder Infarkt\nGehirnschlag\nSchlaganfall" },
+      { topic: "Schlaganfall", q: "Welche Arten des Schlaganfalls werden unterschieden", a: "Weißer Infarkt, Gefäßverschluss\nRoter Infarkt, aufgrund einer Blutung" },
+      { topic: "Schlaganfall", q: "Definiere Hirninfarkt auf physiologischer Ebene", a: "Untergang von Gehirngewebe durch zentrale Durchblutungsstörung" },
+      { topic: "Schlaganfall", q: "Nenne mindestens fünf Symptome eines Apoplex", a: "Hirndrucksymptome: Übelkeit Erbrechen Schwindel Kopfschmerzen Bewusstseinsstörung bis Koma\nNeurologische Ausfälle: kontralaterale Hemiparese Seh Hör Schluckbeschwerden Sensibilitätsstörung Aphasie Agnosie Apraxie Inkontinenz Krampfanfälle" },
+      { topic: "Schlaganfall", q: "Erste Hilfe bei zerebralem Insult, nenne und begründe", a: "Beim Klienten bleiben, überwachen und sichern\nSichere Lagerung zum Beispiel stabile Seitenlage bei Bewusstlosigkeit, Verschlucken entgegenwirken\nNotarzt alarmieren, schnelle Hilfe und Diagnostik im Krankenhaus nötig\nKontrolle der Lebensfunktionen, Reanimation erkennen\nSauerstoffzufuhr gegen Unterversorgung\nKlienten beruhigen, Stress abbauen\nNichts essen und trinken geben, Erstickungsgefahr" },
+
+      // Behandlung und Pflege bei Schlaganfall
+      { topic: "Schlaganfall", q: "Wie kann eine zentrale Durchblutungsstörung behandelt werden", a: "Medikamente zur Gerinnsellösung und Durchblutungsförderung\nLogopädie zur Sprache\nErgotherapie zum Training der Gehirnfunktionen\nPhysiotherapie zur Bewegungsförderung" },
+      { topic: "Schlaganfall", q: "Welche Pflege empfiehlt sich bei Hirninfarkt", a: "Pflege und Lagerung nach Bobath Konzept" },
+      { topic: "Schlaganfall", q: "Welche Faktoren begünstigen Hirninfarkt, nenne mindestens 6 und begründe", a: "Hoher Blutdruck: Gefäße spröde, Arteriosklerose oder Gefäßbruch\nRauchen: fördert Arteriosklerose\nFettstoffwechselstörung: Ablagerungen, Embolie Risiko\nÜbergewicht und Bewegungsmangel: fördert Fettstoffwechselstörung und Arteriosklerose\nDiabetes: oft mit Fettstoffwechselstörung und Übergewicht\nVorhofflimmern: Embolie Risiko\nStress: kann Entzündungen und hohen Blutdruck fördern\nAlter" },
+
+      // Parkinson
+      { topic: "Parkinson", q: "Welches neurologische System ist bei Morbus Parkinson erkrankt und welche Funktionen sind betroffen", a: "Extrapyramidales System, Muskeltonus und Feinabstimmung sind betroffen" },
+      { topic: "Parkinson", q: "Nenne die Ursachen für Morbus Parkinson, nicht symptomatischer Parkinsonismus", a: "Ungeklärt, kleiner Teil erblich\nTransmitterimbalance: Dopamin und Serotoninmangel, Acetylcholin und Glutamatüberschuss" },
+      { topic: "Parkinson", q: "Nenne 2 Ursachen für symptomatischen Parkinson", a: "Neuroleptika\nVergiftungen\nEntzündungen\nSauerstoffmangel" },
+      { topic: "Parkinson", q: "Nenne die 3 Hauptsymptome bei Parkinson, Fachbegriffe", a: "Tremor\nRigor\nAkinese\nZusätzlich möglich: Gang und Haltungsanomalitäten" },
+      { topic: "Parkinson", q: "Nenne vier psychische Symptome bei Parkinson", a: "Depression\nAntriebsminderung\nVerlangsamtes Denken\nApathie" },
+      { topic: "Parkinson", q: "Nenne 5 vegetative Störungen bei Parkinson", a: "Schlafstörungen\nSchwitzen\nDurchfall oder Verstopfung\nVermehrter Speichelfluss\nVermehrte Talgabsonderung" },
+      { topic: "Parkinson", q: "Beschreibe den Verlauf des Parkinson Syndroms", a: "Verschlechterung über etwa 20 Jahre\nEndstadium häufig nicht erreicht\nMöglich: Bettlägerigkeit, Gelenkversteifung, Lungenentzündung\nTod oft durch Unfall oder Verschlucken" },
+      { topic: "Parkinson", q: "Welche Therapiemöglichkeiten gibt es bei Parkinson", a: "Dopamin gegen Akinese\nAnticholinergika gegen Tremor und Rigor\nPhysiotherapie\nAlles symptomatisch" },
+      { topic: "Parkinson", q: "Erläutere 4 Maßnahmen im Umgang mit Parkinson Erkrankten", a: "Keinen Zeitdruck\nDepression entgegenwirken durch positive Aktivitäten soziale Integration Ruhepausen\nBeständigkeit und sensibler Umgang\nAktivierende Pflege zur Selbständigkeit\nZusätzlich möglich: Stolperfallen vermeiden, Beaufsichtigung beim Essen" },
+
+      // Demenz allgemein
+      { topic: "Demenz", q: "Was sollte man im Umgang mit Demenzkranken beachten, nenne vier Maßnahmen", a: "Emotionale Stabilität fördern\nVorhandene Fähigkeiten erhalten\nNicht überfordern, mitmachen lassen, Aufgaben an Fähigkeiten anpassen\nGeduld, einfache klare Sätze\nGewohnte Abläufe, feste Tagesstruktur\nSicherheit\nROT Validation Basale Stimulation" },
+      { topic: "Demenz", q: "Nenne die 4 häufigsten Demenzerkrankungen", a: "Alzheimer Demenz\nPick Demenz\nLewy Körperchen Demenz\nVaskuläre Demenz" },
+      { topic: "Demenz", q: "Welche Varianten von Alzheimer gibt es und wann treten sie auf", a: "Erblich bedingt oft vor dem 60 Lebensjahr\nUngeklärte Ursache häufig nach dem 80 Lebensjahr" },
+      { topic: "Demenz", q: "Welche Stadien gibt es im Verlauf der Alzheimer Demenz", a: "Leichtgradige Demenz\nMittelgradige Demenz\nSchwere Demenz" },
+      { topic: "Demenz", q: "Welche Leitsymptome bringt Alzheimer mit sich", a: "Kurzzeitgedächtnisstörung\nDenkstörung des visuell räumlichen Denkens der Handlungsplanung und der Urteils und Entscheidungsfähigkeit\nSprachstörung" },
+      { topic: "Demenz", q: "Nenne 5 weitere Symptome einer Alzheimer Demenz", a: "Orientierungsstörungen\nAntriebsarmut\nSchlafstörung\nHalluzinationen\nWahn\nAggressivität\nBewegungsstörungen\nVerlust von Kulturtechniken\nAgnosie\nApathie\nLangzeitgedächtnisstörung\nInkontinenz" },
+      { topic: "Demenz", q: "Gibt es Therapie oder Heilung bei Alzheimer", a: "Therapie gegen Symptome, keine Heilung, zum Beispiel Antidementiva Neuroleptika Antidepressiva" },
+      { topic: "Demenz", q: "Nenne physiologische und anatomische Veränderungen bei Alzheimer", a: "Ablagerung schädlicher Eiweiße, Störung der Nervenimpulsübermittlung\nMangel an Acetylcholin, Überschuss an Glutamat\nAbsterben von Nervenzellen\nGehirn schrumpft" },
+
+      // Vaskuläre Demenz
+      { topic: "Demenz", q: "Was versteht man unter vaskulärer Demenz", a: "Gefäßbedingte Demenz" },
+      { topic: "Demenz", q: "Nenne und erkläre kurz 3 Arten vaskulärer Demenz", a: "Vaskuläre Demenz mit akutem Beginn durch Thrombosen Embolien Hirnblutungen oder Arteriosklerose\nMultiinfarktdemenz mit mehreren kleineren Infarkten, schleichender Beginn\nSubkortikale vaskuläre Demenz, Bluthochdruck schädigt tieferliegende Strukturen" },
+      { topic: "Demenz", q: "Nenne 5 Risikofaktoren vaskulärer Demenz", a: "Herzrhythmusstörungen\nBluthochdruck\nAlkohol\nDiabetes\nHohes Cholesterin\nRauchen\nÜbergewicht\nErkrankte Herzkranzgefäße" },
+      { topic: "Demenz", q: "Nenne vier häufige Symptome vaskulärer Demenz", a: "Gedächtnisstörung\nOrientierungsstörung\nGangstörungen\nBlasenstörungen\nVerschiebung des Tag Nacht Rhythmus" },
+
+      // Pflegerische Maßnahmen bei Demenz
+      { topic: "Demenz", q: "Was ist ROT im Rahmen pflegerischer Maßnahmen bei Demenz", a: "Realitätsorientierungstraining: Hinweisschilder Orientierungshilfen und strukturierende Maßnahmen fördern Orientierung" },
+      { topic: "Demenz", q: "Was ist Validation im Rahmen pflegerischer Maßnahmen bei Demenz", a: "Gefühle und Erlebniswelt werden wertschätzend angenommen, nicht zwingend Realität herstellen, Lösung in Vorstellungswelt suchen" },
+      { topic: "Demenz", q: "Was versteht man unter Basaler Stimulation im Rahmen pflegerischer Maßnahmen bei Demenz", a: "Sinneskanäle werden stimuliert zur Entspannung, Degeneration entgegenwirken, nonverbale Kommunikation ermöglichen" },
+
+      // Intelligenzminderung
+      { topic: "Intelligenzminderung", q: "Erkläre den Begriff Intelligenzminderung", a: "Früh erworbener Intelligenzmangel prä peri oder postnatal, unterschiedliche Ursachen, IQ unter 70" },
+      { topic: "Demenz", q: "Erkläre primäre und sekundäre Demenz und nenne je drei Beispiele", a: "Primäre Demenz: hirneigene Erkrankung, irreversibel, zum Beispiel Alzheimer vaskuläre Pick\nSekundäre Demenz: Erkrankung mit Hirnbeteiligung, potentiell reversibel, zum Beispiel Herz Kreislauf Lunge" },
+      { topic: "Intelligenzminderung", q: "Unterschied Intelligenzminderung und Demenz", a: "Intelligenzminderung: prä peri oder postnatale Gehirnschädigung, IQ steigert sich im Leben nicht\nDemenz: volle Intelligenz wird erreicht, später fortschreitender Abbau" },
+      { topic: "Intelligenzminderung", q: "Nenne die verschiedenen Grade der Intelligenzminderung", a: "Leichte IM\nMittelgradige IM\nSchwere IM\nSchwerste IM" },
+      { topic: "Intelligenzminderung", q: "Nenne Symptome bei Intelligenzminderung", a: "Kognition: eingeschränktes Denkvermögen, Aufmerksamkeit, Gedächtnis\nWeiteres: mangelnder Spracherwerb, Stereotypien, Selbstverletzung, Aggressivität, Passivität, psychische Abhängigkeit\nKörperlich: neurologische Defizite, Lähmungen, visuelle auditive Probleme, Herz Kreislauf Komplikationen" },
+      { topic: "Intelligenzminderung", q: "Nenne fünf Ursachen für Intelligenzminderungen", a: "Genetisch\nOrganisch zum Beispiel Trisomie 21\nFrühkindliche Hirnschädigungen zum Beispiel ZNS Infektionen toxische Schädigungen traumatische Geburtsschäden Sauerstoffmangel Frühgeburten Schädel Hirn Traumata" },
+    ];
+
+    const $ = (id) => document.getElementById(id);
+
+    const state = {
+      all: CARDS.map((c, i) => ({ ...c, id: i })),
+      filtered: [],
+      queue: [],
+      index: 0,
+      showAnswer: false,
+      known: new Set()
+    };
+
+    function uniqueTopics(cards){
+      const s = new Set(cards.map(c => c.topic || "Ohne Thema"));
+      return Array.from(s).sort((a,b) => a.localeCompare(b, "de"));
+    }
+
+    function normalize(s){
+      return (s || "").toLowerCase().trim();
+    }
+
+    function matches(card, term){
+      if(!term) return true;
+      const t = normalize(term);
+      return normalize(card.q).includes(t) || normalize(card.a).includes(t) || normalize(card.topic).includes(t);
+    }
+
+    function applyFilters(){
+      const term = $("search").value;
+      const topic = $("topic").value;
+
+      state.filtered = state.all.filter(c => {
+        const okTerm = matches(c, term);
+        const okTopic = (topic === "all") ? true : (c.topic === topic);
+        const okKnown = !state.known.has(c.id);
+        return okTerm && okTopic && okKnown;
+      });
+
+      state.queue = [...state.filtered];
+      state.index = 0;
+      state.showAnswer = false;
+
+      render();
+      renderList();
+      updateCount();
+    }
+
+    function updateCount(){
+      const totalAll = state.all.length;
+      const visible = state.queue.length;
+      const known = state.known.size;
+      $("count").textContent = `${visible} von ${totalAll} Karten`;
+      $("knownPill").textContent = `Gekonnt: ${known}`;
+    }
+
+    function render(){
+      const total = state.queue.length;
+      if(total === 0){
+        $("title").textContent = "Keine Karten gefunden";
+        $("faceLabel").textContent = "Hinweis";
+        $("faceText").textContent = "Passe Suche oder Thema an oder nutze Reset.";
+        $("pos").textContent = "0 von 0";
+        $("barFill").style.width = "0%";
+        return;
+      }
+
+      const card = state.queue[state.index];
+      const n = state.index + 1;
+
+      $("title").textContent = card.topic || "Karte";
+      $("pos").textContent = `${n} von ${total}`;
+      $("barFill").style.width = `${Math.round((n / total) * 100)}%`;
+
+      if(state.showAnswer){
+        $("faceLabel").textContent = "Antwort";
+        $("faceText").textContent = card.a;
+      } else {
+        $("faceLabel").textContent = "Frage";
+        $("faceText").textContent = card.q;
+      }
+
+      highlightActiveInList();
+    }
+
+    function renderList(){
+      const el = $("list");
+      el.innerHTML = "";
+      const frag = document.createDocumentFragment();
+
+      state.queue.forEach((c, idx) => {
+        const item = document.createElement("div");
+        item.className = "item";
+        item.dataset.idx = String(idx);
+
+        const q = document.createElement("div");
+        q.className = "q";
+        q.textContent = c.q;
+
+        const meta = document.createElement("div");
+        meta.className = "meta";
+
+        const t = document.createElement("span");
+        t.className = "pill";
+        t.textContent = c.topic || "Ohne Thema";
+
+        const p = document.createElement("span");
+        p.className = "pill";
+        p.textContent = `Nr ${idx + 1}`;
+
+        meta.appendChild(t);
+        meta.appendChild(p);
+
+        item.appendChild(q);
+        item.appendChild(meta);
+
+        item.addEventListener("click", () => {
+          state.index = idx;
+          state.showAnswer = false;
+          render();
+        });
+
+        frag.appendChild(item);
+      });
+
+      el.appendChild(frag);
+      highlightActiveInList();
+    }
+
+    function highlightActiveInList(){
+      const el = $("list");
+      const items = el.querySelectorAll(".item");
+      items.forEach(it => it.classList.remove("active"));
+      const active = el.querySelector(`.item[data-idx="${state.index}"]`);
+      if(active){
+        active.classList.add("active");
+        const r = active.getBoundingClientRect();
+        const pr = el.getBoundingClientRect();
+        if(r.top < pr.top || r.bottom > pr.bottom){
+          active.scrollIntoView({ block: "nearest" });
+        }
+      }
+    }
+
+    function flip(){
+      if(state.queue.length === 0) return;
+      state.showAnswer = !state.showAnswer;
+      render();
+    }
+
+    function next(){
+      if(state.queue.length === 0) return;
+      state.index = (state.index + 1) % state.queue.length;
+      state.showAnswer = false;
+      render();
+    }
+
+    function prev(){
+      if(state.queue.length === 0) return;
+      state.index = (state.index - 1 + state.queue.length) % state.queue.length;
+      state.showAnswer = false;
+      render();
+    }
+
+    function shuffleQueue(){
+      for(let i = state.queue.length - 1; i > 0; i--){
+        const j = Math.floor(Math.random() * (i + 1));
+        [state.queue[i], state.queue[j]] = [state.queue[j], state.queue[i]];
+      }
+      state.index = 0;
+      state.showAnswer = false;
+      render();
+      renderList();
+      updateCount();
+    }
+
+    function markKnown(){
+      if(state.queue.length === 0) return;
+      const c = state.queue[state.index];
+      state.known.add(c.id);
+      applyFilters();
+    }
+
+    function markAgain(){
+      if(state.queue.length === 0) return;
+      const c = state.queue[state.index];
+      state.queue.splice(state.index, 1);
+      state.queue.push(c);
+      if(state.index >= state.queue.length) state.index = 0;
+      state.showAnswer = false;
+      render();
+      renderList();
+      updateCount();
+    }
+
+    function resetAll(){
+      state.known.clear();
+      $("search").value = "";
+      $("topic").value = "all";
+      applyFilters();
+    }
+
+    function init(){
+      // Topics füllen
+      const topics = uniqueTopics(state.all);
+      const sel = $("topic");
+      topics.forEach(t => {
+        const opt = document.createElement("option");
+        opt.value = t;
+        opt.textContent = t;
+        sel.appendChild(opt);
+      });
+
+      // Events
+      $("search").addEventListener("input", applyFilters);
+      $("topic").addEventListener("change", applyFilters);
+
+      $("flip").addEventListener("click", flip);
+      $("next").addEventListener("click", next);
+      $("prev").addEventListener("click", prev);
+      $("shuffle").addEventListener("click", shuffleQueue);
+      $("reset").addEventListener("click", resetAll);
+      $("markKnown").addEventListener("click", markKnown);
+      $("markAgain").addEventListener("click", markAgain);
+
+      $("bigCard").addEventListener("click", flip);
+      $("bigCard").addEventListener("keydown", (e) => {
+        if(e.key === "Enter" || e.key === " "){
+          e.preventDefault();
+          flip();
+        }
+      });
+
+      document.addEventListener("keydown", (e) => {
+        // Eingabefelder nicht stören
+        const tag = (document.activeElement && document.activeElement.tagName) ? document.activeElement.tagName.toLowerCase() : "";
+        if(tag === "input" || tag === "select" || tag === "textarea") return;
+
+        if(e.key === "ArrowRight") next();
+        if(e.key === "ArrowLeft") prev();
+        if(e.key === " ") { e.preventDefault(); flip(); }
+      });
+
+      applyFilters();
+    }
+
+    init();
+  </script>
+</body>
+</html>
